@@ -18,6 +18,7 @@ custom:
     useStaticCache: ${opt:useStaticCache, self:custom.defaults.useStaticCache}
     useDownloadCache: ${opt:useDownloadCache, self:custom.defaults.useDownloadCache}
     cacheLocation: ${opt:cacheLocation, ''}
+    dockerRootless: ${opt:dockerRootless, false}
   defaults:
     slim: false
     slimPatterns: false
