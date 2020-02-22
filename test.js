@@ -1909,3 +1909,32 @@ test(
   },
   { skip: !canUseDocker() }
 );
+
+
+test(
+  'py3.6 uses download cache with dockerizePip & slim option',
+  t => {
+    process.chdir('tests/base');
+    const path = npm(['pack', '../..']);
+    npm(['i', path]);
+    sls([
+      '--dockerizePip=true',
+      '--dockerRootless=true',
+      '--slim=true',
+      'package'
+    ]);
+    const cachepath = getUserCachePath();
+    t.true(
+      pathExistsSync(`${cachepath}${sep}downloadCacheslspyc${sep}http`),
+      'http exists in download-cache'
+    );
+    t.notEqual(
+      statSync(`${cachepath}${sep}downloadCacheslspyc`).uid,
+      process.getuid(),
+      'Caches directory uid is not changed'
+    );
+
+    t.end();
+  },
+  { skip: !canUseDocker() }
+);
